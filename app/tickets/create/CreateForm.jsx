@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation"
 import { useState } from "react"
+import { revalidatePath } from 'next/cache'
 
 export default function CreateForm() {
     const router = useRouter()
@@ -28,7 +29,7 @@ export default function CreateForm() {
         })
 
         if (response.status === 201) {
-            router.refresh()
+            revalidatePath('/tickets') 
             router.push("/tickets")
         }
     }
