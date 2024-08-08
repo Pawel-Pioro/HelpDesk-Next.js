@@ -2,7 +2,8 @@
 
 import { useRouter } from "next/navigation"
 import { useState } from "react"
-import { revalidatePath } from 'next/cache'
+
+import FormSubmit from "./FormSubmit"
 
 export default function CreateForm() {
     const router = useRouter()
@@ -12,26 +13,12 @@ export default function CreateForm() {
     const [priority, setPriority] = useState("low")
     const [isLoading, setIsLoading] = useState(false)
 
-    async function handleSubmit(e) {
+    function handleSubmit(e) {
         e.preventDefault()
         setIsLoading(true)
-
-        const ticket = {
-            title, body, priority, user_email: "test@example.com"
-        }
-
-        const response = await fetch("http://localhost:4000/tickets", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(ticket),
-        })
-
-        if (response.status === 201) {
-            revalidatePath('/tickets') 
-            router.push("/tickets")
-        }
+        FormSubmit(title, body, priority)
+        setIsLoading(false)
+        router.push("/tickets")
     }
 
     return (
@@ -69,10 +56,10 @@ export default function CreateForm() {
                 disabled={isLoading}
             >
                 <span>
-                {isLoading ? 
-                    "Adding..." : 
-                    "Add Ticket"
-                }
+                    {isLoading ?
+                        "Adding..." :
+                        "Add Ticket"
+                    }
                 </span>
             </button>
         </form>

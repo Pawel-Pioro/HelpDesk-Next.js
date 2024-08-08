@@ -1,5 +1,6 @@
 "use client"
 
+import revalidateTickets from "@/app/Actions/revalidateTickets"
 import { useRouter } from "next/navigation"
 
 export default function DeleteTicketButton({ id }) {
@@ -12,7 +13,7 @@ export default function DeleteTicketButton({ id }) {
         })
 
         if (response.ok) {
-            router.refresh()
+            revalidateTickets()
             router.push("/tickets")
         }
     }
